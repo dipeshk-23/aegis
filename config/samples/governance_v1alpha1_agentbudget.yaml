@@ -1,0 +1,9 @@
+apiVersion: governance.aegis.io/v1alpha1
+kind: AgentBudget
+metadata:
+  labels:
+    app.kubernetes.io/name: aegis
+    app.kubernetes.io/managed-by: kustomize
+  name: agentbudget-sample
+spec:
+  # TODO(user): Add fields here

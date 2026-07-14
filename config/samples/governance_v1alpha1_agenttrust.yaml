@@ -1,0 +1,9 @@
+apiVersion: governance.aegis.io/v1alpha1
+kind: AgentTrust
+metadata:
+  labels:
+    app.kubernetes.io/name: aegis
+    app.kubernetes.io/managed-by: kustomize
+  name: agenttrust-sample
+spec:
+  # TODO(user): Add fields here

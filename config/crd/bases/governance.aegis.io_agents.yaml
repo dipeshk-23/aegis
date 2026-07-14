@@ -39,6 +39,8 @@ spec:
           spec:
             description: spec defines the desired state of Agent
             properties:
+              displayName:
+                type: string
               foo:
                 description: foo is an example field of Agent. Edit agent_types.go
                   to remove/update

@@ -12,6 +12,7 @@ resources:
 - api:
     crdVersion: v1
     namespaced: true
+  controller: true
   domain: aegis.io
   group: governance
   kind: Agent

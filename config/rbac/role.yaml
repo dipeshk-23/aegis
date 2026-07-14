@@ -1,11 +1,32 @@
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  labels:
-    app.kubernetes.io/name: aegis
-    app.kubernetes.io/managed-by: kustomize
   name: manager-role
 rules:
-- apiGroups: [""]
-  resources: ["pods"]
-  verbs: ["get", "list", "watch"]
+- apiGroups:
+  - governance.aegis.io
+  resources:
+  - agents
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - governance.aegis.io
+  resources:
+  - agents/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - governance.aegis.io
+  resources:
+  - agents/status
+  verbs:
+  - get
+  - patch
+  - update

@@ -33,7 +33,8 @@ type AgentSpec struct {
 
 	// foo is an example field of Agent. Edit agent_types.go to remove/update
 	// +optional
-	Foo *string `json:"foo,omitempty"`
+	Foo         *string `json:"foo,omitempty"`
+	DisplayName string  `json:"displayName,omitempty"`
 }
 
 // AgentStatus defines the observed state of Agent.

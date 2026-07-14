@@ -36,6 +36,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	governancev1alpha1 "github.com/dipeshk-23/aegis/api/v1alpha1"
+	"github.com/dipeshk-23/aegis/internal/controller"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -177,6 +178,13 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err := (&controller.AgentReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "Failed to create controller", "controller", "agent")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	if err := mgr.AddHealthzCheck("healthz", healthz.Ping); err != nil {

@@ -6,4 +6,5 @@ metadata:
     app.kubernetes.io/managed-by: kustomize
   name: agent-sample
 spec:
+  displayName: Customer Support Agent
   # TODO(user): Add fields here

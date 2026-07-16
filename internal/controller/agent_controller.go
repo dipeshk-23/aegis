@@ -22,10 +22,10 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/log"
 
 	governancev1alpha1 "github.com/dipeshk-23/aegis/api/v1alpha1"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	"github.com/dipeshk-23/aegis/controlplane/orchestrator"
+	"github.com/dipeshk-23/aegis/controlplane/repository/kubernetes"
 )
 
 // AgentReconciler reconciles a Agent object
@@ -62,22 +62,14 @@ func (r *AgentReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	// logger.Info("Reconciling agent", " name", req.Name)
 	// return ctrl.Result{}, nil
 
-	logger := log.FromContext(ctx)
+	//logger := log.FromContext(ctx)
 
-	agent := &governancev1alpha1.Agent{}
-
-	err := r.Get(ctx, req.NamespacedName, agent)
+	repo := kubernetes.New(r.Client)
+	orch := orchestrator.New(repo)
+	err := orch.Handle(ctx, req)
 	if err != nil {
-		if apierrors.IsNotFound(err) {
-			return ctrl.Result{}, nil
-		}
 		return ctrl.Result{}, nil
 	}
-	logger.Info(
-		"Fetched Agent",
-		"name", agent.Name,
-		"displayName", agent.Spec.DisplayName,
-	)
 	return ctrl.Result{}, nil
 }
 

@@ -23,9 +23,9 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
 
 	governancev1alpha1 "github.com/dipeshk-23/aegis/api/v1alpha1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 )
 
 // AgentReconciler reconciles a Agent object
@@ -48,11 +48,36 @@ type AgentReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.24.1/pkg/reconcile
 func (r *AgentReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	_ = logf.FromContext(ctx)
+	// _ = logf.FromContext(ctx)
 
-	// TODO(user): your logic here
-	log.FromContext(ctx).Info("Reconciling agent", " name", req.Name)
+	// // TODO(user): your logic here
+	// //log.FromContext(ctx).Info("Reconciling agent", " name", req.Name)
 
+	// o := orchestrator.Orchestrator{}
+	// err := o.Reconcile()
+	// if err != nil {
+	// 	return ctrl.Result{}, nil
+	// }
+	// logger := log.FromContext(ctx)
+	// logger.Info("Reconciling agent", " name", req.Name)
+	// return ctrl.Result{}, nil
+
+	logger := log.FromContext(ctx)
+
+	agent := &governancev1alpha1.Agent{}
+
+	err := r.Get(ctx, req.NamespacedName, agent)
+	if err != nil {
+		if apierrors.IsNotFound(err) {
+			return ctrl.Result{}, nil
+		}
+		return ctrl.Result{}, nil
+	}
+	logger.Info(
+		"Fetched Agent",
+		"name", agent.Name,
+		"displayName", agent.Spec.DisplayName,
+	)
 	return ctrl.Result{}, nil
 }
 
